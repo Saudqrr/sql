@@ -5,58 +5,56 @@ CREATE DATABASE Store ;
 Use Store ;
 create table Countries ( code int primary key ,
 name varchar (20) unique  ,
-constraint_name varchar (20) not null ) ;
+continent_name varchar (20) not null ) ;
 
 2-
-create table users ( users_id int primary key ,
+create table users ( id int primary key ,
 full_name varchar (20)  ,
 email varchar (20) unique ,
 gender char (1) not null 
-check (gender in ('M','F')) ,
+check (gender in ('m','f')) ,
 date_of_birth varchar(15) ,
 created_at datetime ,
 country_code int   );
 
  3-
 Use Store ;
-create table orders ( orders_id int primary key ,
-users_id int  ,
-status  varchar(6) check (status in ('start','finsh')),
+create table orders ( id int primary key ,
+user_id int  ,
+status  varchar(6) check (status in ('start','finish')),
 created_at datetime  );
 
 4-
 
 Use Store ;
-create table order_prodects ( order_id int primary key ,
-product_id int  ,
+create table order_products ( order_id int ,
+product_id int ,
 quantity int default (0),
-created_at datetime  );
+created_at datetime ,
+primary key(order_id,product_id));
 
 5-
 Use Store ;
-create table products ( products_id int primary key ,
+create table products ( id int primary key ,
 name varchar (10) not null ,
 price int  default (0) ,
-status  varchar(10) check (status in ('valid','expired')) ,
+ status  varchar(10) check (status in ('valid','expired')) ,
 created_at datetime  default current_timestamp ) ;
 
 6-
 Use Store ;
 alter table users 
-add foreign key (users_id) references countries (code);
+add foreign key (country_code) references countries (code);
 7-
 Use Store ;
 alter table orders
-add foreign key (orders_id) references countries (users_id);
+add foreign key (user_id) references users (id);
+
 8-
 Use Store ;
 alter table order_items
-add foreign key (order_id) references countries (orders_id);
-
-9-
-Use Store ;
-alter table products
-add foreign key (products_id) references countries (order_id);
+add foreign key (order_id) references orders (id);
+add foreign key (products_id) references products (id);
 
 /*DML*/
 Use Store ;
@@ -66,34 +64,34 @@ insert into countries
 
 
 insert into users 
-values (1, "Saud" , "saudqrr@gmail.com""M" ,"1999_09_06"), 
- (2 ,"Mohammd ","Africa@gmail.com","m""2000-01-02"),
- (3,"alii","alii@gmail.com","m""1997-05-06");
+values (1, "Saud algarni" , "saudqrr@gmail.com","m" ,"1999_09_06","2022-04-16",1), 
+ (2 ,"Mohammd ali","Africa@gmail.com","m","2000-01-02","2022-04-16",2),
+ (3,"alii ahmed","alii@gmail.com","m","1997-05-06","2022-04-16",2);
 
 Use Store ;
 insert into orders 
-values (1, "processing" , 2020-02-06),
-(2,"processing" , 2021-02-06),
-(3,"processing" , 2022-03-06);
+values (1,3, "start" , 2020-02-06),
+(2,1,"finish" , 2021-02-06),
+(3,1,"finish" , 2022-03-06);
 
 Use Store ;
 insert into products
-values ("saud", 50 , "processing" 2020-02-06),
-("mohammd ",21 "processing" , 2021-02-06),
-(alii, 60 "processing" , 2022-03-06);
+values (1,"Book", 50 , "expired", 2020-02-06),
+(2,"Pen",21, "valid" , 2021-02-06),
+(3,"Note", 60, "valid" , 2022-03-06);
 
 Use Store ;
-insert into order_prodects
-values (1,501 ,10),
-(2,445,11),
-(3,11,66);
+insert into order_products
+values (1,1 ,10),
+(2,2,11),
+(3,3,66);
 
 
 Use store
-UPDATED countries
-Set name ="Qatar"
+UPDATE countries
+Set name ="UAE"
 where id = 1 ;
 
 Use store
-deleted from products 
+delete from products 
 where id = 2 ;
