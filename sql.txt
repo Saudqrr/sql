@@ -1,0 +1,99 @@
+/*DDL*/
+CREATE DATABASE Store ;
+ 
+1-
+Use Store ;
+create table Countries ( code int primary key ,
+name varchar (20) ,
+constraint_name varchar (20) ) ;
+
+2-
+create table users ( users_id int primary key ,
+full_name varchar (20)  ,
+email varchar (20) unique ,
+gender char (1) not null 
+check (gender in ('M','F')) ,
+date_of_birth varchar(15) ,
+created_at datetime ,
+country_code int   );
+
+ 3-
+Use Store ;
+create table orders ( orders_id int primary key ,
+users_id int  ,
+status  varchar(6) check (status in ('start','finsh')),
+created_at datetime  );
+
+4-
+
+Use Store ;
+create table order_prodects ( order_id int primary key ,
+product_id int  ,
+quantity int default (0),
+created_at datetime  );
+
+5-
+Use Store ;
+create table products ( products_id int primary key ,
+name varchar (10) not null ,
+price int  default (0) ,
+status  varchar(10) check (status in ('valid','expired')) ,
+created_at datetime  default current_timestamp ) ;
+
+6-
+Use Store ;
+alter table users 
+add foreign key (users_id) references countries (code);
+7-
+Use Store ;
+alter table orders
+add foreign key (orders_id) references countries (users_id);
+8-
+Use Store ;
+alter table order_items
+add foreign key (order_id) references countries (orders_id);
+
+9-
+Use Store ;
+alter table products
+add foreign key (products_id) references countries (order_id);
+
+/*DML*/
+Use Store ;
+insert into countries 
+ values (1, "Saudi Arabi" , "Asia"), (2," Eygpt","Africa"),(3,"France","Europe"),
+ (4,"Australia","Australia");
+
+
+insert into users 
+values (1, "Saud" , "saudqrr@gmail.com""M" ,"1999_09_06"), 
+ (2 ,"Mohammd ","Africa@gmail.com","m""2000-01-02"),
+ (3,"alii","alii@gmail.com","m""1997-05-06");
+
+Use Store ;
+insert into orders 
+values (1, "processing" , 2020-02-06),
+(2,"processing" , 2021-02-06),
+(3,"processing" , 2022-03-06);
+
+Use Store ;
+insert into products
+values ("saud", 50 , "processing" 2020-02-06),
+("mohammd ",21 "processing" , 2021-02-06),
+(alii, 60 "processing" , 2022-03-06);
+
+Use Store ;
+insert into order_prodects
+values (1,501 ,10),
+(2,445,11),
+(3,11,66);
+
+
+Use store
+UPDATED countries
+Set name ="Qatar"
+where id = 1 ;
+
+Use store
+deleted from products 
+where id = 2 ;
