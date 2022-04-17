@@ -4,8 +4,8 @@ CREATE DATABASE Store ;
 1-
 Use Store ;
 create table Countries ( code int primary key ,
-name varchar (20) ,
-constraint_name varchar (20) ) ;
+name varchar (20) unique  ,
+constraint_name varchar (20) not null ) ;
 
 2-
 create table users ( users_id int primary key ,
